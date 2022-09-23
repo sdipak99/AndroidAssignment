@@ -15,5 +15,7 @@ dependencies {
 
     //for unit testing
     testImplementation 'junit:junit:4.13.2'
+    //coroutines
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4'
 
 }

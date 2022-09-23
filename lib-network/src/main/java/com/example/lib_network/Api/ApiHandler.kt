@@ -1,5 +1,8 @@
 package com.example.lib_network.Api
 
-class ApiHandler {
+object ApiHandler {
+    fun fetchCustomUI(url:String){
+    }
+
 
 }
