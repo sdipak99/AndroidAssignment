@@ -1,25 +1,29 @@
 package com.example.lib_network.Api
 
 import com.example.lib_network.Models.CustomUiResponse
+import retrofit2.HttpException
+
 
 object ApiHandler {
     val api by lazy { ApiClient().api }
-    suspend fun <T:Any> fetchCustomUI(url:String):NetworkResult<T> {
+    suspend fun <T : Any> fetchCustomUI(url: String): NetworkResult<T> {
+        return try {
+                val response = api.getCustomUI(url)
+                if(response.isSuccessful && response.body()!=null)
+                    NetworkResult.Success(response.body() as CustomUiResponse)
+                else
+                    NetworkResult.Error(response.code(),response.message())
 
-
-            val response = api.getCustomUI(url)
-            val body = response.body()
-            if (response.isSuccessful && body != null)
-                NetworkResult.Success(body);
-            else
-                NetworkResult.Error(response.code(), response.message())
-
-        return NetworkResult.Success(body)
-
-
-
+        } catch (e: HttpException) {
+            NetworkResult.Error(e.code(),e.message)
+        } catch (e:Throwable){
+            NetworkResult.Exception(e)
+        }
     }
 
-    //todo - no endpoint was given
-    //suspend fun fetchImage(url:String)
+    /*
+    suspend fun <T : Any> fetchImage(url: String): NetworkResult<T> {
+        //for the image data.
+    }
+    */
 }

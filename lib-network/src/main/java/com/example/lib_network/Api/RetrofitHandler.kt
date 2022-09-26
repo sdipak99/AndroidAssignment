@@ -1,9 +1,11 @@
 package com.example.lib_network.Api
 
 import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.create
+import java.util.logging.Level.ALL
 
 class ApiClient {
 
@@ -12,12 +14,14 @@ class ApiClient {
     private val retrofit by lazy {
         Retrofit.Builder()
             .client(httpClient)
+            .baseUrl("https://demo.ezetap.com/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }
     private val httpClient by lazy{
+
         OkHttpClient.Builder()
-            .addInterceptor{chain -> chain.proceed(chain.request())}
+            .addInterceptor(HttpLoggingInterceptor().also { it.setLevel(HttpLoggingInterceptor.Level.BODY) })
             .build()
     }
 }

@@ -12,4 +12,4 @@ data class Uidata(
     val uitype: String,
     @SerializedName("value")
     val value: String
-)
+    )
